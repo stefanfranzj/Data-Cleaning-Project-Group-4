@@ -1,3 +1,106 @@
+## Task 1 – Harmonizing, Merging, and Cleaning
+---
+####*Note: The commands outlined below may also be found in sequential order in the Cleaning1.R file*
+---
+**1. Import the files outlined in the README.md file using the read.table() function**
+
+*These files can be pulled directly from the GitHub repository by incorporating the relevant links into the commands*
+
+````
+y_train1 <- read.table("https://raw.githubusercontent.com/slevkoff/ECON386REPO/master/Data%20Cleaning%20Project/Task%201/y_train.txt")
+x_train1 <- read.table("https://raw.githubusercontent.com/slevkoff/ECON386REPO/master/Data%20Cleaning%20Project/Task%201/X_train.txt")
+subject_train <- read.table("https://raw.githubusercontent.com/slevkoff/ECON386REPO/master/Data%20Cleaning%20Project/Task%201/train/subject_train.txt")
+y_test1 <- read.table("https://raw.githubusercontent.com/slevkoff/ECON386REPO/master/Data%20Cleaning%20Project/Task%201/y_test.txt")
+x_test1 <- read.table("https://raw.githubusercontent.com/slevkoff/ECON386REPO/master/Data%20Cleaning%20Project/Task%201/X_test.txt")
+subject_test <- read.table("https://raw.githubusercontent.com/slevkoff/ECON386REPO/master/Data%20Cleaning%20Project/Task%201/test/subject_test.txt")
+features <- read.table("https://raw.githubusercontent.com/slevkoff/ECON386REPO/master/Data%20Cleaning%20Project/Task%201/features.txt")
+activity_labels <- read.table("https://raw.githubusercontent.com/slevkoff/ECON386REPO/master/Data%20Cleaning%20Project/Task%201/activity_labels.txt")
+````
+This creates data frames of each available data set to be polished into one cohesive table of data.
+
+---
+**2. Labeling of data set with appropriate variable names**
+
+This involves the renaming of each column in each relevant data frame.
+####*Note: This is done prior to merging the data sets in order to make filtering of the data for desired variables easier when we are farther along in the process*
+
+````
+colnames(x_train1) <- features [,2]
+colnames(x_test1) <- features [,2]
+colnames(y_train1) <- "ActivityID"
+colnames(y_test1) <- "ActivityID"
+colnames(subject_train) <- "Subject"
+colnames(subject_test) <- "Subject"
+colnames(activity_labels) <- c("ActivityID", "Activity")
+````
+---
+**3. Merging of the data sets**
+
+From there, we must merge all of the data sets into one harmonized data frame that we can then clean afterwards to the desired parameters.
+
+````
+training_data <- cbind(subject_train,y_train1,x_train1)
+testing_data <- cbind(subject_test,y_test1,x_test1)
+merged_data <- rbind(training_data, testing_data)
+````
+
+---
+**4. Extraction of the mean and standard deviation for each measurement**
+
+Because in this case we are only interested in the mean and standard deviation for each included variable, we must filter through our harmonized data frame for these statistics.
+
+````
+colNames <- colnames(merged_data)
+mean_std_filter <- (grepl("Subject", colNames) |
+                        grepl("ActivityID", colNames) |
+                        grepl("mean..", colNames) |
+                        grepl("std..", colNames))
+mean_std <- merged_data[ ,mean_std_filter==TRUE]
+activity_mean_std <- merge(mean_std, activity_labels, by="ActivityID")
+````
+
+Part of this cleaning involves the labeling of each activity coded in the initial studies. This is done per the labels in the activity_labels.txt file.
+
+````
+activity_mean_std$Activity <- if_else(activity_mean_std$ActivityID == 1,"WALKING",(
+  if_else(activity_mean_std$ActivityID == 2,"WALKING_UPSTAIRS",(
+    if_else(activity_mean_std$ActivityID == 3, "WALKING_DOWNSTAIRS",(
+      if_else(activity_mean_std$ActivityID == 4, "SITTING",(
+        if_else(activity_mean_std$ActivityID == 5, "STANDING",(
+          if_else(activity_mean_std$ActivityID == 6, "LAYING","NA")))))))))))
+activity_mean_std <- activity_mean_std[ ,c(2,82,3:81)]
+````
+
+---
+**5. Calculate average measurements for each subject and each activity**
+
+To work around individual differences in movement among the test subjects and between test activities, we must then calculate average values for each acceleromotor measurement based on the subejct and activity being recorded.
+
+````
+tidy_data2 <- aggregate.data.frame(activity_mean_std, by=list(activity_mean_std$Subject, activity_mean_std$Activity), FUN=mean)
+tidy_data2 <- tidy_data2[,c(1,2,6:84)]
+tidy_data2 <- tidy_data2[order(tidy_data2$Group.1,tidy_data2$Group.2),]
+tidy_data2$Activity <- NULL
+colnames(tidy_data2) [1] <- "Subject"
+colnames(tidy_data2) [2] <- "Activity"
+````
+
+---
+**6. Exporting into a readable text file**
+
+Finally, we must convert this final data frame into a text file for easier processing between our own machines and those of other researchers.
+
+````
+write.table(tidy_data2, "tidy1.txt")
+````
+
+---
+#### Author 
+
+* **Noah Hilton**
+
+---
+
 ## Task 2 - Cleaning, Transforming, and Parsing/Partitioning
 ---
 **1. Import Panel8589.txt into R using the read.table() function.**

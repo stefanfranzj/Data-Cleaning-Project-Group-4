@@ -8,6 +8,41 @@
 
 ### Task 1 – Harmonizing, Merging, and Cleaning
 
+####Prerequisites
+
+R Studio
+
+
+````
+install.packages("dplyr")
+library(dplyr)
+````
+
+#### Required files to run R cleaning script
+###### (All Task 1 files are found in the Task 1 folder)
+
+* 'X_test.txt'
+* 'X_train.txt'
+* 'Y_test.txt'
+* 'Y_train.txt'
+* 'subject_test.txt'
+* 'subject_train.txt'
+* 'activity_labels.txt'
+* 'features.txt'
+
+#### R Script that cleans data set
+
+* 'Cleaning1.R'
+  * *also found in Task 1 folder*
+
+#### Files that result from running R Script
+
+* 'tidy1.txt'
+
+#### Author
+
+* **Noah Hilton**
+
 ---
 ### Task 2 – Cleaning, Transforming, and Parsing/Partitioning
 
