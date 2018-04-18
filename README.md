@@ -13,7 +13,7 @@
 
 #### Prerequistes
 
-**R Studios** 
+R Studios 
 
 ```
 install.packages("dplyr")
@@ -38,7 +38,7 @@ library(dplyr)
   - All found in the Task 2 folder
 
 
-#### Authors
+#### Author
 
 * **Stefan Jonsson**
 ---
