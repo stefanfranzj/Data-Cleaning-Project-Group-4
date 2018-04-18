@@ -1,6 +1,6 @@
-## Task 1 – Harmonizing, Merging, and Cleaning
+## Task 1 â€“Â Harmonizing,Â Merging,Â andÂ Cleaning
 ---
-####*Note: The commands outlined below may also be found in sequential order in the Cleaning1.R file*
+#### *Note: The commands outlined below may also be found in sequential order in the Cleaning1.R file*
 ---
 **1. Import the files outlined in the README.md file using the read.table() function**
 
@@ -101,9 +101,9 @@ write.table(tidy_data2, "tidy1.txt")
 
 ---
 
-## Task 2 - Cleaning, Transforming, and Parsing/Partitioning
+## Task 2 -Â Cleaning,Â Transforming,Â andÂ Parsing/Partitioning
 ---
-**1. Import Panel8589.txt into R using the read.table() function.**
+**1. Import Panel8589.txtÂ intoÂ RÂ usingÂ theÂ read.table()Â function.**
 
 Open R Studio and set the working directory to the folder containing the 'Panel_8595.Txt', in order to be able to extract the data from the file.
 
@@ -123,7 +123,7 @@ Pasurka<-read.table(filename, header=FALSE)
 Pasurka is now a data frame and is ready to be cleaned
 
 ---
-**2. Figure out what is being measured in each column (and in what units) Remove any superfluous variables not to be used in the analysis.**
+**2. FigureÂ outÂ whatÂ isÂ beingÂ measuredÂ inÂ eachÂ columnÂ (andÂ inÂ whatÂ units) RemoveÂ anyÂ superfluousÂ variablesÂ notÂ toÂ beÂ usedÂ inÂ theÂ analysis.**
 
 To be able to find what columns represented what measurement I had to Use the table given in the paper named "Decomposing electric power plant emissions within a joint production framework" by Carl A. Pasurka Jr.
 
@@ -208,7 +208,7 @@ Now by matching the values, we can make the interpretation that
 # V12 = Irrelevant
 # V13 = Irrelevant
 ```
-The next step was remove any superfluous variables such as V2, V12, V13
+The next step was removeÂ anyÂ superfluousÂ variables such as V2, V12, V13
 ```
 Pasurka_C1<-subset(Pasurka,select = -c(V2,V12,V13))
 ```
@@ -227,7 +227,7 @@ names(Pasurka_C1)<- c("Plant_ID",
 ```
 
 ---
-**3. Convert all energy measurements (energy produced and heat contents) into daily averages, measured in MWh. Convert all pollutants quantities, measured in annualized short tons, into daily averages. Convert all dollars (measured in 1973 $’s) into 2017 dollars.**
+**3. ConvertÂ allÂ energyÂ measurementsÂ (energyÂ producedÂ andÂ heatÂ contents)Â into dailyÂ averages, measuredÂ inÂ MWh. ConvertÂ allÂ pollutantsÂ quantities,Â measuredÂ inÂ annualizedÂ shortÂ tons,Â intoÂ dailyÂ averages. ConvertÂ allÂ dollarsÂ (measuredÂ inÂ 1973Â $â€™s)Â intoÂ 2017Â dollars.**
 
 In order to create the new variables needed for the conversion, a mutate function had to be applied.
 
@@ -263,7 +263,7 @@ Pasurka_C3<-subset(Pasurka_C2,select = -c(Electricity_kWh,
 ```
 
 ---
-**4. Add a factor variable indicating whether or not Phase I of the Clean Air Act had already been announced or not (the CAA Phase I restrictions were announced in 1990).**
+**4. AddÂ aÂ factorÂ variableÂ indicatingÂ whetherÂ orÂ notÂ PhaseÂ IÂ ofÂ theÂ CleanÂ Air ActÂ hadÂ alreadyÂ been announcedÂ orÂ notÂ (theÂ CAAÂ PhaseÂ IÂ restrictionsÂ wereÂ announcedÂ inÂ 1990).**
 For this task, I created a factor variable using an ifelse statement. The statement was based on the year variable.
 
 ```
@@ -295,7 +295,7 @@ Pasurka_Final <- Pasurka_Final[c(1,2,4,5,6,10,3,7,8,9,11)]
 This code cleaned up the column names making them spaced seperated. Now the column order is correct.  
 
 ---
-**5.Save your cleaned data set using the write.table() function as tidy2.txt**
+**5.SaveÂ yourÂ cleanedÂ dataÂ setÂ usingÂ theÂ write.table()Â functionÂ asÂ tidy2.txt**
 Using the write.table function the final cleaned dataset was saved as a text file called tidy2.txt
 
 ```
@@ -303,7 +303,7 @@ write.table(Pasurka_Final, file = "tidy2.txt")
 ```
 
 ---
-**6. Create another dataset called tidy2_a.txt that averages all variables across all years for each plant for the 11 year period so that the tidy dataset has 92 rows of observations for all of the relevant variables.**
+**6. Create anotherÂ datasetÂ calledÂ tidy2_a.txtÂ thatÂ averagesÂ allÂ variablesÂ acrossÂ allÂ yearsÂ for eachÂ plantÂ forÂ theÂ 11Â yearÂ periodÂ soÂ thatÂ theÂ tidyÂ datasetÂ hasÂ 92Â rowsÂ ofÂ observationsÂ forÂ all ofÂ theÂ relevantÂ variables.**
 
 Using the "tidy2.txt" I created a new data frame named tidy2_a. Then by using the aggregate function, I was able to create an average across all years for each plant for the 11 year period. 
 ```
@@ -340,7 +340,7 @@ write.table(tidy2_a_final, file = "tidy2_a.txt")
 ```
 
 ---
-**7.Create another dataset called tidy2_b.txt that aggregated (adds) all variables within a  particular year across all 92 plants so that the tidy dataset has 11 rows of observations for all of the relevant variables.**
+**7.CreateÂ anotherÂ datasetÂ calledÂ tidy2_b.txtÂ thatÂ aggregatedÂ (adds)Â allÂ variablesÂ withinÂ aÂ  particularÂ yearÂ acrossÂ allÂ 92Â plantsÂ soÂ thatÂ theÂ tidyÂ datasetÂ hasÂ 11Â rowsÂ ofÂ observationsÂ for allÂ ofÂ theÂ relevantÂ variables.**
 
 Using the "tidy2.txt" I created a new data frame named tidy2_b. Then by using the aggregate function, I was able to create a dataset that aggregates the value of all variables within a particular year across all 92 plants. 
 ```
